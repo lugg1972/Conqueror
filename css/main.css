@@ -1,0 +1,733 @@
+@font-face {
+  font-family: "MedievalSharp";
+  src: url(../res/MedievalSharp.ttf);
+}
+@font-face {
+  font-family: "GothicLeaf";
+  src: url(../res/GothicLeaf.ttf);
+}
+@font-face {
+  font-family: "Magnificent";
+  src: url(../res/Magnificent.ttf);
+}
+@keyframes oscill {
+  0%    { transform: translateX(-5px) translateY(5px)  rotateX(-10deg) rotateY(10deg);  }
+  50%   { transform: translateY(5px)  translateX(-5px) rotateX(10deg)  rotateY(-10deg); }
+  100%  { transform: translateY(-5px) translateX(5px)  rotateX(-10deg) rotateY(10deg);  }
+}
+@keyframes spin {
+  0%    { transform: rotateY(0deg);  }
+  100%  { transform: rotateY(360deg);}
+}      
+@keyframes zoomout {
+  0%    { transform: scale(3.0, 3.0);  }
+  100%  { transform: scale(1.0, 1.0);  }
+}
+/*------------------------------------------------------------------------------------------------*/
+:root {
+  --headFont:         MedievalSharp;
+  --headLetter:       rgba(245, 15, 15, .7);
+  --headBackground:   url(../img/empty.png);
+}
+body, h1, h2, h3, h4, h5, h6, ul, ol, li, div, p, img, figure, article, section, span, nav, legend, table, tr, td, th {
+  margin: 0; padding: 0;
+}
+body {
+  width:              99.8vw;
+  height:             99.8vh;
+  text-align:         center;
+  background-image:   url(../img/paper.png);
+  background-size:    cover;
+  background-repeat:  no-repeat;
+  font-family:        MedievalSharp;
+  overflow:           hidden;
+  text-shadow:        -1px -1px 0 lightGray, 1px -1px 0 lightGray, -1px 1px 0 lightGray, 1px 1px 0 lightGray;
+}
+ul, ol {
+  list-style:         none;
+}
+h2 {
+  font-size: 		      350%;
+}
+h2:first-letter {
+  background-color:   var(--headLetter);
+  font-family:        var(--headFont);
+  background-image:   var(--headBackground);
+  padding-left:       .5vw; 
+  padding-right:      .5vw;
+  font-weight:        bold;
+  color:              blue;
+  border:             1px solid gold;
+  border-radius:      3px;
+}  
+h3 {
+  font-size: 		      300%;
+}
+h3:first-letter {
+  background-color:   var(--headLetter);
+  font-family:        var(--headFont);
+  background-image:   var(--headBackground);
+  padding-left:       .5vw; 
+  padding-right:      .5vw;
+  font-weight:        bold;
+  color:              blue;
+  border:             1px solid gold;
+  border-radius:      3px;
+}  
+h4 {
+  font-size: 		      200%;
+}
+h5 {
+  font-size: 		      150%;
+}
+section {
+  width:              100vw;
+  height:             100vh;
+  display:            none;
+  margin-top:         1vw;
+  margin-bottom:      1vw;
+}
+a {
+  text-decoration:    none;
+}
+a:hover {
+  color:              blue;
+}
+audio {
+  display:            none;
+}
+footer h5:hover {
+  color:              blue;
+}
+footer h5:active {
+  color:              gold;
+}
+p {
+  text-align:         justify;
+  text-justify:       inter-word;
+}  
+/*------------------------------------------------------------------------------------------------*/
+.fileList {
+  display:            table;
+  width:              50%;
+  margin-top:         2%;
+  margin-left:        25%;
+  margin-bottom:      2%;
+}
+.fileList > li {
+  display:            table-row;
+}  
+.fileList > li p {
+  display:            table-cell;
+  border:             1px solid blue;
+  border-radius: 	    5px;
+  white-space: 		    nowrap;
+  text-align:         center;
+  background-color:   rgba(192, 192, 192, .6);
+  padding:            1vw;
+  font-size:          150%;
+  font-weight:        bold;
+}
+.fileList > li p:hover {
+  color:              blue;
+  background-color:   ivory;
+}  
+.fileList > li p:active {
+  color:              gold;
+}  
+.disabled {
+  --text-decoration:    line-through;
+  filter:             grayscale(100%);
+  pointer-events:	    none; /* not clickable */
+  opacity: 			      0.6;  /* grays it out to look disabled */
+}    
+.clickable:hover {
+  color:              blue;
+}  
+.clickable:active {
+  color:              gold;
+}    
+.clickable:active:first-letter {
+  color:              gold;
+}    
+/*------------------------------------------------------------------------------------------------*/
+#vendor {
+  text-align:         center;
+  font-weight:        bold; 
+  display:            flex;
+  flex-flow:          column nowrap;
+  align-items:        center;
+  justify-content:    center;
+  padding-top:        15%;
+}  
+#vendor img {
+  animation: 		      spin 4s infinite linear;
+}  
+#vendor footer h5:hover {
+  color:              black;
+}
+#vendor footer h5:active {
+  color:              black;
+}
+/*------------------------------------------------------------------------------------------------*/
+#title img {
+  height:             65%;
+  overflow:           hidden;
+  animation: 		      zoomout 10s forwards;
+}  
+#title footer h5:hover {
+  color:              black;
+}
+#title footer h5:active {
+  color:              black;
+}
+/*------------------------------------------------------------------------------------------------*/
+#story {
+  width:              80%;
+  margin-left:        10%;
+  overflow-y:         auto;
+}      
+#story img {
+  width:              25%;
+  float:              left;
+  margin-right:       1vw;
+  margin-top:         1vh;
+} 
+#story p {
+  font-size:          150%;
+  padding-bottom:     .5vh;
+}
+#story p:first-letter {
+  background-color:   var(--headLetter);
+  font-family:        var(--headFont);
+  background-image:   var(--headBackground);
+  padding-left:       .2vw; 
+  padding-right:      .2vw;
+  font-weight:        bold;
+  color:              blue;
+}  
+#story footer h5:hover {
+  color:              black;
+}
+#story footer h5:active {
+  color:              black;
+}
+/*------------------------------------------------------------------------------------------------*/
+#credits > ul {
+  display:            table;
+  width:              100%;
+}
+#credits li {
+  display:            table-cell;
+  font-size:          150%;
+  width:              33%;
+}  
+#credits img {
+  animation: 		      oscill 2s ease-in-out infinite alternate;
+  padding:            1.5vh;
+}
+#credits a {
+  color:              black;
+  font-size:          90%;
+}
+#credits a:hover {
+  color:              blue;
+}  
+#credits a:active {
+  color:              gold;
+}  
+#credits h6 {
+  color:              black;
+  font-size:          90%;
+}
+#credits h6:hover {
+  color:              blue;
+}  
+#credits h6:active {
+  color:              gold;
+}  
+#credits > ul > li h5:first-letter {
+  background-color:   var(--headLetter);
+  font-family:        var(--headFont);
+  background-image:   var(--headBackground);
+  padding-left:       .3vw; 
+  padding-right:      .3vw;
+  font-weight:        bold;
+  color:              blue;
+  border:             1px solid gold;
+  border-radius:      3px;
+}  
+#credits footer h5:hover {
+  color:              black;
+}
+#credits footer h5:active {
+  color:              black;
+}
+/*------------------------------------------------------------------------------------------------*/
+#menu ul {
+  margin-top:         3%;
+  margin-bottom:      3%;
+  width:              40vw;
+  margin-left:        30vw;
+}
+#menu ul li {
+  margin-top:         3%;
+  margin-bottom:      3%;
+}
+#menu h2 {
+  text-align:         left;
+  white-space: 		    nowrap;        
+}
+#menu h2:hover {
+  color:              blue;
+}
+#menu h2:active {
+  color:              gold;
+}
+#menu h2:active:first-letter {
+  color:              gold;
+}
+/*------------------------------------------------------------------------------------------------*/
+#oldGame {
+}
+#oldGame ul {
+  margin-top:         5%;
+  margin-bottom:      5%;
+}
+#oldGame h3:hover {
+  color:              blue;
+}
+#oldGame h3:active {
+  color:              gold;
+}
+#oldGame h3:active:first-letter {
+  color:              gold;
+}
+/*------------------------------------------------------------------------------------------------*/
+#settings ul {
+  display:            table;
+  margin-top:         3%;
+  margin-bottom:      3%;
+  width:              80%;
+  margin-left:        10%;
+  overflow:           auto;
+}
+#settings ul li p {
+  display:            table-row;
+}
+#settings input {
+  display:            table-cell;
+} 
+#settings span {
+  display:            table-cell;
+} 
+#settings h6 {
+  font-size:          120%;
+}
+#settings h3:hover {
+  color:              blue;
+}
+#settings h3:active {
+  color:              gold;
+}
+#settings h3:active:first-letter {
+  color:              gold;
+}
+#settings h6:hover {
+  color:              blue;
+} 
+#settings h6:active {
+  color:              gold;
+} 
+/*------------------------------------------------------------------------------------------------*/
+#new1 figure {
+  display:            block;
+  width:              50%;
+  margin-left:        25%;
+}
+#new1 figure > img {
+  filter:             grayscale(100%);
+  opacity:            0.7;
+  position:           absolute;
+}
+#new1 figure > img:hover {
+  filter:             none;
+  opacity:            1;
+}
+#new1 figure legend {
+  position:           absolute;
+  border: 			      1px solid black; 
+  background-color:   lightGray;
+  border-radius: 	    5px;
+  opacity: 			      .6;
+  z-index: 			      2;
+  height:             3vh;
+  width:              24vw;
+  display:            table;
+} 
+#new1 figure legend p {
+  display:            table-row;
+  vertical-align:     baseline;
+}
+#new1 figure legend span {
+  display:            table-cell;
+  color: 			        black;
+  font-size: 		      120%;
+  font-weight:        bold;
+  text-align:         center;
+  white-space: 		    nowrap;
+}
+#new1 figure legend img {
+  display:            table-cell;
+  max-width:          3vw;
+  max-height:         3vh;
+  vertical-align:     baseline;
+}
+#new1 figure legend img:nth-child(1) {
+  float:              left;       
+  clear:              left;  
+  margin-left:        .5vw;
+}
+#new1 figure legend img:nth-child(2) {
+  float:              right;       
+  clear:              right;  
+  margin-right:       -.5vw;
+  margin-top:         .3vh;
+}
+
+@media (orientation: landscape) {
+#new1 figure {
+  height:             70%;
+  margin-top:         2%;
+}  
+#new1 figure > img {
+  margin-left:        18vw;
+  margin-top:         0vh;
+}
+#new1 figure > legend {
+  margin-left:        18vw;
+  margin-top:         0vh;
+} }
+@media (orientation: portrait) {
+#new1 figure {
+  height:             70%;
+  margin-top:         6%;
+}  
+#new1 figure > img {
+  margin-left:        10vw;
+  margin-top:         12vh;
+}
+#new1 figure > legend {
+  margin-left:        8vw;
+  margin-top:         12vh;
+} }
+/*------------------------------------------------------------------------------------------------*/
+#new2 ul {
+  margin-left:        6vw;
+  margin-right:       6vw;
+  display:            table;
+}
+#new2 li {
+  display:            table-row;
+}
+#new2 li > figure img {
+  background-image:   url(../img/quatrefoil3.png);
+  background-size:    100% 100%;
+  padding:            3vw;
+  float:              left;
+  clear:              left;
+  width:              8vw;
+  height:             8vw;
+}
+#new2 li span {
+  display:            table-row;  
+  width:              80%;
+  overflow-x:         auto;
+}
+#new2 li span > figure {
+  display:            table-cell;       
+  padding-left:       1vw;
+  padding-right:      1vw;
+  border:             1px solid gold;
+  border-radius:      1vw;
+  opacity:            .7;
+  filter:             grayscale(100%);
+}
+#new2 li span > figure legend {
+  text-align:         center;  
+}
+#new2 li span > figure img {
+  display:            inline-block;
+  width:              10vw;
+  height:             10vw;
+}
+#new2 li span > figure:hover {
+  opacity:            1;
+  filter:             none;
+  color:              blue;
+  background-color:   lightGray;
+}
+#new2 li span > figure:active {
+  color:              gold;
+}
+/*------------------------------------------------------------------------------------------------*/
+#new3 ul {
+  display:            table;  
+  padding-left:       10%;
+  width:              80%;
+}
+#new3 li {
+  display:            table-row;
+}
+#new3 figure {
+  display:            table-cell;
+  font-size:          120%;
+}     
+#new3 figure legend {
+  text-align:         justify;
+  text-justify:       inter-word;
+}     
+#new3 figure img {
+  float:              left;
+  background-image:   url(../img/quatrefoil3.png);
+  background-size:    100% 100%;
+  padding:            2vw;
+  width:              9vw;
+  height:             9vw;
+}     
+#new3 h3:hover {
+  color:              blue;
+}
+#new3 h3:active {
+  color:              gold;
+}
+#new3 h3:active:first-letter {
+  color:              gold;
+}
+/*------------------------------------------------------------------------------------------------*/
+#training {
+  display:            table;
+  --position:           relative;
+  width:              60%;
+  margin-left:        20%;
+}
+#training img {
+  display:            inline;
+}
+#training p {
+  display:            table-row;
+}
+#training span {
+  display:            table-cell;
+}
+#training span.subject {
+  color:              red;
+  width:              20%;
+  font-size:          120%;
+  text-align:         right;
+}
+#training  img.subject {
+  height:             2vh;
+  width:              auto;
+  overflow:           hidden;
+}
+#training .subject:hover {
+  color:              blue;
+}
+#training .subject:active {
+  color:              gold;
+}
+#training .dice {
+  position:           absolute;
+  height:             3vh;
+  width:              3vw;
+  object-fit:         cover;
+  overflow:           hidden;
+  border: 1px solid green;
+}
+/*------------------------------------------------------------------------------------------------*/
+#main  {
+  overflow-y:         auto;
+}  
+#main img:nth-child(1) {
+  float:              left;
+}  
+#main ul {
+  display:            table;  
+  margin-left:        10%;
+  width:              80%;
+}
+#main li {
+  display:            table-row;
+}
+#main li > p {
+  display:            block;  
+  font-size:          120%;
+  padding-left:       1vw;
+  padding-right:      1vw;
+}
+#main li:nth-child(3) {
+  --visibility:         hidden;
+}
+#main img {
+  width:              10vw;
+  height:             10vw;
+  background-image:   url(../img/quatrefoil3.png);
+  background-size:    100% 100%;
+  padding:            2vw;
+}
+#main figure {
+  display:            table-cell;
+  opacity:            .7;
+  filter:             grayscale(100%);
+  padding:            0;
+}
+#main figure:hover {
+  color:              blue;
+  opacity:            1;
+  filter:             none;
+}
+#main figure:active {
+  color:              gold;
+}
+#main figure > span {
+  display:            block;
+  text-align:         center;
+  font-size:          150%;
+}
+/*------------------------------------------------------------------------------------------------*/
+#general ul {
+  margin-top:         5%;
+  margin-bottom:      5%;
+}
+#general h3:hover {
+  color:              blue;
+}
+#general h3:active {
+  color:              gold;
+}
+#general h3:active:first-letter {
+  color:              gold;
+}
+/*------------------------------------------------------------------------------------------------*/
+#player > ul {
+  display:            table;  
+  margin-left:        10%;
+  width:              80%;
+}
+#player li {
+  display:            table-row;  
+  border: 1px solid red;
+}
+#player li figure {
+  display:            table-cell;
+  border: 1px solid blue;
+}
+#player li p {
+  display:            table-cell;
+  border: 1px solid green;
+}  
+#player li p > p {
+  display:            block;
+  text-align:         justify;
+  text-justify:       inter-word;
+}
+#player li img {
+  width:              10vw;
+  height:             10vw;
+  background-image:   url(../img/quatrefoil3.png);
+  background-size:    100% 100%;
+  padding:            2vw;
+  --display:            block;
+  overflow:           hidden;    
+}
+#player h4:hover {
+  color:              blue;
+}
+#player h4:active {
+  color:              gold;
+}
+/*------------------------------------------------------------------------------------------------*/
+#family > ul {
+  display:            table;  
+  margin-left:        10%;
+  width:              80%;
+}
+#family li {
+  display:            table-row;  
+}
+#family li img {
+  width:              10vw;
+  height:             10vw;
+  background-image:   url(../img/quatrefoil3.png);
+  background-size:    100% 100%;
+  padding:            2vw;
+  overflow:           hidden;    
+  display:            table-cell;
+}
+#family li p {
+  display:            table-cell;
+  border: 1px solid blue;
+}
+#family li p > p {
+  display:            block;
+  text-align:         justify;
+  text-justify:       inter-word;
+}
+#family h4:hover {
+  color:              blue;
+}
+#family h4:active {
+  color:              gold;
+}
+/*------------------------------------------------------------------------------------------------*/
+#region > ul {
+  display:            table;  
+  margin-left:        10%;
+  width:              80%;
+}
+#region li {
+  display:            table-row;  
+}
+#region li figure {
+  display:            table-cell;
+  border: 1px solid blue;
+}
+#region li p {
+  display:            table-cell;
+  border: 1px solid blue;
+}
+#region li p > p {
+  display:            block;
+  text-align:         justify;
+  text-justify:       inter-word;
+}
+#region li img {
+  width:              10vw;
+  height:             10vw;
+  background-image:   url(../img/quatrefoil3.png);
+  background-size:    100% 100%;
+  padding:            2vw;
+  overflow:           hidden;    
+  display:            table-cell;
+}
+#region h4:hover {
+  color:              blue;
+}
+#region h4:active {
+  color:              gold;
+}
+/*------------------------------------------------------------------------------------------------*/
+#modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 10%; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}

@@ -1,0 +1,14 @@
+.accordion {
+}
+.accordion > ul {
+	display: none;
+}
+.accordion:hover {
+}
+ul! > .accordion:focus ~ li {
+  display: none;
+}
+.accordion:focus > ul {
+	display: block;
+}
+
