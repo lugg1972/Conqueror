@@ -1,0 +1,159 @@
+CLASSES
+A Region has name, Alignment, population, wealth, land, sea, taxes, morale, 
+owner and production. These parameters give the difficulty of game Session,
+e.g. Regions with no owner are harder.  Owner is a Family: Regions may have
+a specific one at the start, and they may change later.
+
+Alignment is one in Celts, Norman, Saxon. 
+Each gives Player different Skills and has lists of Family, male and female 
+names to generate Persons. Each has its own specifics, e.g. Celts hunt with 
+a bow, Saxons with spear.
+
+Skills is a collection of levels in strength, charisma, agility, knowledge.
+Strength and agility decrease with age; charisma and knowledge increase.
+Person's actions may change skills.
+
+Family has name, Title, Alignment and Skills. Skills of ruling Families may
+be different from the ones in Alignment. Title is the rank of every Family,
+in a hierarchical way. Each Family as a Person as a head, and an insigna.
+Insigna has a Shape, a Division and top, bottom and center images.
+The Shape contains the Division: it can have one, two or four slices,  each
+with an image.
+
+Person has name, gender, age, family, wealth, health, Skills,  face, region 
+and some relations. Face is the number of the image to show in the Session. 
+Age is the number of turns of living. When health is 0 Person dies. 
+
+Unit has  UnitType, morale, fatigue, experience, owner, range, movement and 
+strength. Range, movement and strength come from the UnitType.
+
+Action has name, duration, and TODO
+
+
+SESSION
+Session has Turns as months starting from January 900. 
+Turn changes automatically after Actions.
+
+Starting a Session creates random Families and Persons in each region. 
+Families will be from 3 up to (population / 1.000) per Region.
+Members of a Family will be from 3 to $familySeed Persons in the Alignment.
+The oldest male will be the head of Family.  
+Families will have Insigna based on their Title and Region.
+Insigna can be changed.
+Skills of families  will be copied from Alignment, with random changes from
+-10% to +10%.
+Ruling Families will always be the same and start with the same leaders.
+Some fixed Persons will appear in given years.
+
+Player chooses a Region.
+Inside the Region Player chooses a Family: the ruling one is not available.
+Player will be created as a 14 years old male Person in the chosen Family.
+Player will have random name and month of birth.
+Player may practice sword, bow, horse, music, reading, prayer to change its
+Skills. 
+sword   = strength * .5 + agility  *.3 + knowledge *.2;
+bow     = strength * .3 + agility  *.4 + knowledge *.3;    
+horse   = strength * .4 + agility  *.2 + knowledge *.4;    
+prayer  = strength * .1 + charisma *.1 + knowledge *.8;    
+read    = strength * .1 + charisma *.2 + knowledge *.7;    
+music   = agility  * .3 + charisma *.3 + knowledge *.4;     
+
+Player aims at conquering all of the British Isles.
+Player may not reach the goal during his life: he can keep playing with one
+of his children, if he had at least one.
+
+Player will start at Family manor doing Actions by itself or by Families or 
+chance.
+- invite by a Family for talks, a feast, a tournament, a hunt
+  Head of Family may request children and siblings to go, or to stay.
+  Each member can volunteer.
+- court someone, or be approached for a marriage
+- marry
+- have children (when married) 
+- visit by one or more members of another Family
+- fairs in the village outside the manor
+- rebels or other families' armies invading
+- raiders entering the Manor and/or kidnapping members of Family
+- flood, drought, fires, rebellions and beasts
+- wandering priests or witches giving counsel
+- drilling in sword, spear, bow and arrow, cavalry
+- hunting, praying, music, reading
+- going around alone, disguised or not
+
+Head of the Family can: 
+- change taxes 
+- work more land
+- sell land
+- recruit or disband units
+- drill units
+- call feasts, tournament or hunt and invite Families
+- call fairs
+- change the successor of the Family. It may not be the firstborn.
+Ruler of the Region can:
+- change taxes for all subjects TODO
+
+
+SCREENS
+01. Vendor
+02. Title
+03. Credits
+04. Menu
+ 	05. New game
+	  09. Region choice
+	  10. Region Detail - Family choice
+	  11. Player Detail - optional training
+	  12. Main
+      Text in main is relative to:
+          a. current season and weather
+          b. previous harvest
+          c. future or current harvest  
+          d. wealth and statistics for family
+          e. army status
+          f. neighbors
+          g. people's morale (average on all lands owned by player)
+          h. current events
+      14. Player 
+          Info: name, image (age, health), spouse (image and name), children (image and name)
+          Actions: move, sneak, train
+      15. Family
+          Info: insigna (title), head (image and name), successor (image and name), wealth
+          Actions: build army, train army, call feast
+      16. Region 
+          Info: image (name and align), population, production, taxes, morale
+          Actions: taxes, sell/buy/work land, TODO          
+      17. General
+        18. Save
+        13. Load
+        08. Settings
+      19. Nation 
+          TODO
+      30. go > alone > disguised:      map
+      31. jousting, drilling:          field
+      32. hunting:                     forest, prairie 
+      33. wedding, children, funeral:  church 
+      34. battle:                      forest, prairie, beach, mountain
+	06. Old game
+	  13. Load
+	  12. Main (when a Session exists)    
+	07. Story
+	08. Settings
+    19. Video
+    20. Audio
+    21. Controls
+	03. Credits
+
+
+TOOLS
+
+http://mkweb.bcgsc.ca/color-summarizer/?analyze
+
+
+CODE
+
+JS code in  order of inclusion:
+
+src/main.js     UI functions 
+src/general.js  general purpose classes 
+src/classes.js  game domain classes
+src/data.js     game data
+src/i18n.js     translations
