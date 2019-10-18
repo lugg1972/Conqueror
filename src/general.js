@@ -1,5 +1,7 @@
 let DEBUG = 0;
-let EMPTY = "Empty";
+let EMPTY_IMG = "img/emply.png";
+let NULL = "";
+
 class HTML {
   constructor() {
   }
@@ -31,11 +33,10 @@ class HTML {
     e.style.visibility = "hidden";
   }
   static enable(e) {
-    if(e.style.class) e.style.class.replace(/disabled/g, ""); 
+    e.classList.remove("disabled");
   }
   static disable(e) {
-    let c = e.style.class;
-    if(c && !c.includes("disabled")) c += " disabled";
+    e.classList.add("disabled");
   }
   static visible(e) {
     e.style.visibility = "visible";
@@ -57,8 +58,9 @@ class View {
   static create(tag) {
     return document.createElement(tag);
   }
-  show(id) {
+  show(id, clb) {
     Util.log("click: " + this.current + " > " + id);
+    if(clb) clb();
     if(this.current) View.get(this.current).style.display = "none";
     if(id) View.get(id).style.display = "block";
     this.last = this.current;
@@ -70,11 +72,17 @@ class View {
   back(src, clb) {
     View.get(src).onclick = () => { if(clb) { clb(); } this.show(this.last); };
   }
+  static changes(target, callback, config) {
+    if(!config) config =  { attributes: true, childList: true, subtree: true };
+    let result = new MutationObserver(callback);
+    result.observe(View.get(target), config);
+    return result;
+  }
   static wait(s, clb) {
-    window.setTimeout(s * 1000, clb);
+    window.setTimeout(clb, s * 1000);
   }
   static loop(s, clb) {
-    window.setInterval(s * 1000, clb);
+    window.setInterval(clb, s * 1000);
   }
   static files(lst, clb) {
     let p = Files.path("sessions");
@@ -161,6 +169,7 @@ class Sound {
     this.value.src = src;
     this.value.controls = "none";
     this.value.preload = "auto";
+    this.value.muted = "true";
     document.body.appendChild(this.value);
     if(attrs) for(let a in attrs) { this.value.setAttribute(a, atts[a]); }
   }
@@ -173,15 +182,16 @@ class Sound {
 }
 
 class Accordion {
-  constructor(src, root, title, panel, num) {
+  constructor(src, root, title, panel, num, display) {
     this.elem = document.getElementById(src);
     this.active = null;
+    if(!display) display = "block";
     let cnt = 0;
     for(let r of this.elem.getElementsByTagName(root)) {
       let t = r.getElementsByTagName(title)[0];
       t.onclick = () => { 
         if(this.active) this.active.getElementsByTagName(panel)[0].style.display = "none"; 
-        r.getElementsByTagName(panel)[0].style.display = "block";
+        r.getElementsByTagName(panel)[0].style.display = display;
         this.active = r;
       }
       if(cnt == num) this.active = r; else r.getElementsByTagName(panel)[0].style.display = "none";
