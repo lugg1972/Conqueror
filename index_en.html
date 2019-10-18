@@ -129,7 +129,7 @@
       </header>
       <ul>
         <li><h3>Load</h3></li>
-        <li><h3>Return to current game</h3></li>
+        <li><h3 class="disabled">Return to current game</h3></li>
       </ul>  
       <footer>
         <h5>Click here to go back</h5>
@@ -269,7 +269,7 @@
       </ul>
       <h5 class="description">Click on the subjects to train</h5>
       <nav id="training">
-        <img class="dice" src="img/dices.png" alt="dice"/>
+        <div class="dice"></div><!--img src="img/dices.png" class="dice" alt="dice" /-->
         <p>
           <span class="subject">sword</span>
           <span><img class="subject" src="img/token.png" alt="sword"/></span>
@@ -363,50 +363,34 @@
           <figure>
             <legend>Test</legend>
             <img src="img/empty.png" alt="First" />
-            <legend>&nbsp;</legend>
-            <legend>&nbsp;</legend>
           </figure>  
           <figure>
             <legend>Test</legend>
             <img src="img/empty.png" alt="First" />
-            <legend>&nbsp;</legend>
-            <legend>&nbsp;</legend>
           </figure>  
           <figure>
             <legend>Test</legend>
             <img src="img/empty.png" alt="First" />
-            <legend>&nbsp;</legend>
-            <legend>&nbsp;</legend>
           </figure>  
           <figure>
             <legend>Test</legend>
             <img src="img/empty.png" alt="First" />
-            <legend>&nbsp;</legend>
-            <legend>&nbsp;</legend>
           </figure>  
           <figure>
             <legend>Test</legend>
             <img src="img/empty.png" alt="First" />
-            <legend>&nbsp;</legend>
-            <legend>&nbsp;</legend>
           </figure>  
           <figure>
             <legend>Test</legend>
             <img src="img/empty.png" alt="First" />
-            <legend>&nbsp;</legend>
-            <legend>&nbsp;</legend>
           </figure>  
           <figure>
             <legend>Test</legend>
             <img src="img/empty.png" alt="First" />
-            <legend>&nbsp;</legend>
-            <legend>&nbsp;</legend>
           </figure>  
           <figure>
             <legend>Test</legend>
             <img src="img/empty.png" alt="First" />
-            <legend>&nbsp;</legend>
-            <legend>&nbsp;</legend>
           </figure>  
         </li>
       </ul>
@@ -414,22 +398,25 @@
         <div>
           <h4>Travel</h4>
           <ul>
-            <li>Alone</li>
-            <li>Disguised</li>
-            <li>Campaign</li>
+            <li class="alone">Alone</li>
+            <li class="disguised">Disguised</li>
+            <li class="campaign">Campaign</li>
           </ul>
         </div>  
         <div>
           <h4>Train</h4>
           <ul>
-            <li>Sword</li>
-            <li>Bow</li>
-            <li>Horse</li>
-            <li>Reading</li>
-            <li>Prayer</li>
-            <li>Music</li>
+            <li class="sword">Sword</li>
+            <li class="bow">Bow</li>
+            <li class="horse">Horse</li>
+            <li class="reading">Reading</li>
+            <li class="prayer">Prayer</li>
+            <li class="music">Music</li>
           </ul>
         </div>  
+        </div>
+          <h4>Rest</h4>
+          <ul/>
         <div>
       </nav>  
       <footer>
@@ -495,6 +482,7 @@
         <li><h3>Save</h3></li>
         <li><h3>Load</h3></li>
         <li><h3>Settings</h3></li>
+        <li><h3>Quit game</h3></li>
       </ul>
       <footer>
   		  <h5>Click here to go back</h5>
@@ -529,10 +517,23 @@
   		  <h5>Click here to cancel</h5>
       </footer>
     </section>      
+    <section id="bow">
+      <header>
+        <h5>The Conqueror</h5>
+        <h3>Bow practice</h3>
+        <h4></h4>
+      </header>
+      <canvas width="100%" height="100%">
+      </canvas>      
+      <footer>
+  		  <h5>Click here to go back</h5>
+      </footer>
+    </section>  
     <script src="src/general.js"></script>
     <script src="src/classes.js" ></script>
     <script src="src/i18n_en.js" ></script>
     <script src="src/data.js" ></script>
+    <script src="src/canvas.js" ></script>
     <script src="src/main.js" ></script>
   </body>
 </html>  
