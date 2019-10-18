@@ -2,14 +2,6 @@
   font-family: "MedievalSharp";
   src: url(../res/MedievalSharp.ttf);
 }
-@font-face {
-  font-family: "GothicLeaf";
-  src: url(../res/GothicLeaf.ttf);
-}
-@font-face {
-  font-family: "Magnificent";
-  src: url(../res/Magnificent.ttf);
-}
 @keyframes oscill {
   0%    { transform: translateX(-5px) translateY(5px)  rotateX(-10deg) rotateY(10deg);  }
   50%   { transform: translateY(5px)  translateX(-5px) rotateX(10deg)  rotateY(-10deg); }
@@ -29,7 +21,7 @@
   --headLetter:       rgba(245, 15, 15, .7);
   --headBackground:   url(../img/empty.png);
 }
-body, h1, h2, h3, h4, h5, h6, ul, ol, li, div, p, img, figure, article, section, span, nav, legend, table, tr, td, th {
+body, h1, h2, h3, h4, h5, h6, ul, ol, li, div, p, img, figure, article, section, span, nav, legend, table, tr, td, th, canvas {
   margin: 0; padding: 0;
 }
 body {
@@ -136,7 +128,6 @@ p {
   color:              gold;
 }  
 .disabled {
-  --text-decoration:    line-through;
   filter:             grayscale(100%);
   pointer-events:	    none; /* not clickable */
   opacity: 			      0.6;  /* grays it out to look disabled */
@@ -188,7 +179,7 @@ p {
   overflow-y:         auto;
 }      
 #story img {
-  width:              25%;
+  width:              23%;
   float:              left;
   margin-right:       1vw;
   margin-top:         1vh;
@@ -362,7 +353,6 @@ p {
   opacity: 			      .6;
   z-index: 			      2;
   height:             3vh;
-  width:              24vw;
   display:            table;
 } 
 #new1 figure legend p {
@@ -376,6 +366,8 @@ p {
   font-weight:        bold;
   text-align:         center;
   white-space: 		    nowrap;
+  padding-left:       1vw;    
+  padding-right:      1vw;    
 }
 #new1 figure legend img {
   display:            table-cell;
@@ -386,13 +378,12 @@ p {
 #new1 figure legend img:nth-child(1) {
   float:              left;       
   clear:              left;  
-  margin-left:        .5vw;
+  padding-left:       .5vw; 
 }
 #new1 figure legend img:nth-child(2) {
   float:              right;       
   clear:              right;  
-  margin-right:       -.5vw;
-  margin-top:         .3vh;
+  padding-right:      .5vw;
 }
 
 @media (orientation: landscape) {
@@ -539,11 +530,11 @@ p {
 }
 #training .dice {
   position:           absolute;
-  height:             3vh;
-  width:              3vw;
-  object-fit:         cover;
-  overflow:           hidden;
-  border: 1px solid green;
+  font-size:          5rem;
+  left:               calc(50% - 2.5rem);
+  color:              gray;
+  z-index:            1;
+  opacity:            .7;
 }
 /*------------------------------------------------------------------------------------------------*/
 #main  {
@@ -610,7 +601,7 @@ p {
   color:              gold;
 }
 /*------------------------------------------------------------------------------------------------*/
-#player > ul {
+#player ul {
   display:            table;  
   margin-left:        10%;
   width:              80%;
@@ -632,19 +623,39 @@ p {
   text-align:         justify;
   text-justify:       inter-word;
 }
-#player li img {
+#player ul.player li img {
   width:              10vw;
   height:             10vw;
   background-image:   url(../img/quatrefoil3.png);
   background-size:    100% 100%;
   padding:            2vw;
-  --display:            block;
   overflow:           hidden;    
+}
+#player ul.children {
+  overflow:           auto; 
+  max-width:          80%;
+}
+#player ul.children li img {
+  width:              8vw;
+  height:             8vw;
+  background-image:   url(../img/quatrefoil2.png);
+  background-size:    100% 100%;
+  padding:            1.5vw;
+  overflow:           hidden;    
+}
+#player nav ul li {
+  border: 1px solid red;
 }
 #player h4:hover {
   color:              blue;
 }
 #player h4:active {
+  color:              gold;
+}
+#player nav ul li:hover {
+  color:              blue;
+}
+#player nav ul li:active {
   color:              gold;
 }
 /*------------------------------------------------------------------------------------------------*/
@@ -716,6 +727,12 @@ p {
 }
 #region h4:active {
   color:              gold;
+}
+/*------------------------------------------------------------------------------------------------*/
+#bow canvas {
+  border: 2px solid blue; 
+  width: 75vw;
+  height: 75vh;
 }
 /*------------------------------------------------------------------------------------------------*/
 #modal {
