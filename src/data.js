@@ -3,9 +3,9 @@ let HEIGHT = window.innerHeight || document.documentElement.clientHeight || docu
 let SIZE   = parseInt(.55 * Math.min(WIDTH, HEIGHT));
 
 let CELTS 	= new Alignment("Celts", 20, new Skills( 30, 5, 30, 5 ));
-CELTS.femaleNames = ["Aibreann","Aideen","Ailbe","Aileen","Ailis","Aislinn","Alannah","Alma","Aoibheann","Aoife","Aurnia","Banba","Betha","BlÃ¡thnaid","Brianna","Brigid","Bronagh","CaitlÃ­n","Cait","Caoilfhoinn","Caoimhe","Cara","Ciara","Cliona","Clodagh","Damhnait","Dana","Darerca","Doireann","Dearbhail","Deirdre","Dubheasa","Ealga","Eileen","EilÃ­s","Eimear","Einin","Eithne","Elan","Erin","Etain","Ethna","Fiona","Fionnoula","Gobnait","Grainne","Granuaile","Ina","Iona","Iseult","Isleen","Macha","Maeve","MÃ¡ire","Maoliosa","Muadnait","MÃºireann","Neasa","Nieve","Nollaig","Nora","Oona","Orlaith","Rhionnan","Rionach","RÃ³isÃ­n","Sadhbh","Saoirse","Shannon","Shona","SÃ­ne","SinÃ©ad","SiobhÃ¡n"];
+CELTS.femaleNames = ["Aibreann","Aideen","Ailbe","Aileen","Ailis","Aislinn","Alannah","Alma","Aoibheann","Aoife","Aurnia","Banba","Betha","Bláthnaid","Brianna","Brigid","Bronagh","Caitlín","Cait","Caoilfhoinn","Caoimhe","Cara","Ciara","Cliona","Clodagh","Damhnait","Dana","Darerca","Doireann","Dearbhail","Deirdre","Dubheasa","Ealga","Eileen","Eilís","Eimear","Einin","Eithne","Elan","Erin","Etain","Ethna","Fiona","Fionnoula","Gobnait","Grainne","Granuaile","Ina","Iona","Iseult","Isleen","Macha","Maeve","Máire","Maoliosa","Muadnait","Múireann","Neasa","Nieve","Nollaig","Nora","Oona","Orlaith","Rhionnan","Rionach","Róisín","Sadhbh","Saoirse","Shannon","Shona","Síne","Sinéad","Siobhán"];
 CELTS.maleNames = ["Aedan", "Angus", "Ailbe", "Ailill", "Alroy", "Ardan", "Art", "Bartley", "Bradan", "Breandan", "Brian", "Cabhan", "Cearnaigh", "Carrig", "Cathal", "Cearul", "Cian", "Ciaran", "Cillian", "Clearie", "Coilin", "Colm", "Colman", "Conall", "Conan", "Conchobhar", "Connla", "Cormac", "Daire", "Daithi", "Dalaigh", "Darcie", "Davin", "Deaglan", "Derry", "Desmond", "Dillon", "Donal", "Eamon", "Eirnin", "Emmet", "Ennis", "Eoghan", "Faolan", "Fergus", "Finbar", "Finn", "Glendan", "Hugh", "Iollan", "Kevan", "Liam", "Lochlann", "Lorcan", "Murtagh", "Niall", "Nollaig", "Orin", "Padraign", "Peadar", "Pearse", "Quinlan", "Quinn", "Redmond", "Reilly", "Riordan", "Ronan", "Seamus", "Sean", "Turlach", "Ultan"];
-CELTS.clanNames = ["Cineal", "Corca", "Dal", "Muintear", "Siol", "Slioch", "Teallach", "UÃ¬", "Cianacht", "Aes", "Feara", "Tuath"]; 
+CELTS.clanNames = ["Cineal", "Corca", "Dal", "Muintear", "Siol", "Slioch", "Teallach", "Uì", "Cianacht", "Aes", "Feara", "Tuath"]; 
 let NORMANS	= new Alignment("Normans", 10, new Skills( 50, 10, 5, 30 ));
 NORMANS.femaleNames = [];
 NORMANS.maleNames = [];
@@ -55,7 +55,7 @@ let REGIONS = [
 	new Region("Glastenning", SAXONS, null, 5400, 0, 0, 0, 0, 0, 0, 0, Position.px(54, 486, 276), true),
 	new Region("Gododdin", CELTS, null, 3100, 0, 0, 0, 0, 0, 0, 0, Position.px(68, 210, 270), true),
 	new Region("Gwent", SAXONS, null, 4300, 0, 0, 0, 0, 0, 0, 0, Position.px(47, 448, 269), true),
-	new Region("Gwynedd", CELTS, null, 3550, 0, 0, 0, 0, 0, 0, 0, Position.px(71, 371, 231), true),
+	new Region("Gwynedd", CELTS, null, 3550, 0, 0, 0, 0, 0, 0, 0, Position.px(69, 376, 234), true),
 	new Region("Leinster", NORMANS, null, 2950, 0, 0, 0, 0, 0, 0, 0, Position.px(95, 375, 86), true),
 	new Region("Linnius", NORMANS, null, 1650, 0, 0, 0, 0, 0, 0, 0, Position.px(43, 353, 388), true),
 	new Region("Meath", NORMANS, null, 2850, 0, 0, 0, 0, 0, 0, 0, Position.px(80, 328, 99), true),
@@ -68,6 +68,7 @@ let REGIONS = [
 	new Region("Ulster", CELTS, null, 1850, 0, 0, 0, 0, 0, 0, 0, Position.px(79, 259, 127), true),
 	Region.as("Ynys Arcaibh", null, Position.px(38, 11, 285), false),
 	Region.as("Ynys Manau", null, Position.px(19, 311, 229), false),
+	Region.as("Ynys Mon", null, Position.px(29, 371, 230), false),
 	Region.as("Ynys Weith", null, Position.px(19, 529, 357), false)
 ];
 

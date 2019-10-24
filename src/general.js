@@ -1,7 +1,23 @@
 let DEBUG = 0;
-let EMPTY_IMG = "img/emply.png";
+let EMPTY_IMG = "img/empty.png";
 let NULL = "";
 
+// Root class for everything that has a name and can be parsed
+class Parsable {
+  constructor(name) {
+    this.name = name;
+  }
+  parse(txt) {
+    let i = -1;
+    while((i = txt.indexOf("${", i + 1)) >= 0) {
+      let x = txt.substring(i + 2, txt.indexOf("}", i + 2));    
+      txt = txt.replace("\$\{" + x + "\}", eval(x));
+    }
+    return txt;
+  }
+}
+
+// utility class to create HTML elements as text
 class HTML {
   constructor() {
   }
@@ -29,6 +45,9 @@ class HTML {
   static span(txt, attrs) {
     return HTML.elem("span", txt, attrs);
   }
+  static div(txt, attrs) {
+    return HTML.elem("div", txt, attrs);
+  }
   static hidden(e) {
     e.style.visibility = "hidden";
   }
@@ -38,6 +57,9 @@ class HTML {
   static disable(e) {
     e.classList.add("disabled");
   }
+  static clickable(e, n) {
+    e.classList.add("clickable");    
+  }
   static visible(e) {
     e.style.visibility = "visible";
   }
@@ -46,6 +68,38 @@ class HTML {
     return e.style.visibility;
   }
 }
+// utility class to get a part of a greater image
+// dependencies: HTML
+class Division {
+  constructor(root, width, height) {
+    this.root  = root;      // the actual image
+    this.width = width;     // width of the division, in the form "Xdd"
+    this.height = height;   // height of the division
+  }
+  style(x, y, c) {
+    return "position: relative; " + (c ? "background-color: " + c + "; " : "")
+         + (x ? "left: calc(-" + this.width + " * " + x + "); " : "") 
+         + (y ? "top: calc(-" + this.height + " * " + y + ");" : "");
+  }
+  getHTML(x, y, c, attrs) {
+    if(!attrs) attrs = {};
+    attrs["src"] = this.root;
+    if(!attrs["style"]) attrs["style"] = "";
+    attrs["style"] += this.style(x, y, c);
+    return HTML.img(attrs);
+  }
+  getContainer(cnt, txt, attrs) {
+    if(!attrs) attrs = {};
+    if(!attrs["style"]) attrs["style"] = "";
+    attrs["style"] += "width: " + this.width + "; height: " + this.height + "; overflow: hidden;";
+    return HTML.elem(cnt, txt, attrs);
+  } 
+  static as(root, width, height) {
+    return new Division(root, width, height);
+  }
+}
+// utility class for navigation in DOM
+// dependencies: HTML
 class View {
   constructor(id) {
     this.current = null;
@@ -67,10 +121,19 @@ class View {
     this.current = id;
   }
   go(src, dst, clb) {
-    View.get(src).onclick = () => { if(clb) { clb(); } this.show(dst); };
+    let e = View.get(src);
+    if(e.tagName != "SECTION") HTML.clickable(e);
+    e.onclick = () => { if(clb) { clb(); } this.show(dst); };
   }
   back(src, clb) {
-    View.get(src).onclick = () => { if(clb) { clb(); } this.show(this.last); };
+    let e = View.get(src);
+    if(e.type != "SECTION") HTML.clickable(e);
+    e.onclick = () => { if(clb) { clb(); } this.show(this.last); };
+  }
+  static click(e, n, clb) {
+    let x = View.get(e, n);
+    HTML.clickable(x);
+    x.onclick = clb;
   }
   static changes(target, callback, config) {
     if(!config) config =  { attributes: true, childList: true, subtree: true };
@@ -108,13 +171,14 @@ class View {
     e.style.top =  y + z;    
   }
 } 
+// utility 
 class Files {
-  constructor() {
-    this.ROOT = "CONQUEROR"
+  constructor(root) {
+    this.root = root;
     this.SEPARATOR = ".";
   }
   static path(...args) {
-    return this.ROOT + this.SEPARATOR + args.join(this.SEPARATOR);
+    return args.join(this.SEPARATOR);
   }
   static getList(path, items) {
     let result = [];
@@ -131,6 +195,7 @@ class Files {
     return JSON.parse(window.localStorage.getItem(path));
   }
 }     
+// generic utility 
 class Util {
   static rnd(from, upto) {
     return (Math.round(Math.random() * upto)) + from;
@@ -161,7 +226,7 @@ class Util {
     return result;
   }
 }
-
+// sound element
 class Sound {
   constructor(src, attrs) {
     this.value = document.createElement("AUDIO");
@@ -171,7 +236,7 @@ class Sound {
     this.value.preload = "auto";
     this.value.muted = "true";
     document.body.appendChild(this.value);
-    if(attrs) for(let a in attrs) { this.value.setAttribute(a, atts[a]); }
+    if(attrs) for(let a in attrs) { this.value.setAttribute(a, attrs[a]); }
   }
   play() {
     this.value.play();
@@ -180,22 +245,27 @@ class Sound {
     this.value.pause();
   }
 }
-
+// Accordion-style tree.
+// dependencies: HTML
 class Accordion {
-  constructor(src, root, title, panel, num, display) {
-    this.elem = document.getElementById(src);
+  constructor(root, title, panel, num, display) {
     this.active = null;
     if(!display) display = "block";
     let cnt = 0;
-    for(let r of this.elem.getElementsByTagName(root)) {
+    for(let r of document.querySelectorAll(root)) {
       let t = r.getElementsByTagName(title)[0];
-      t.onclick = () => { 
-        if(this.active) this.active.getElementsByTagName(panel)[0].style.display = "none"; 
-        r.getElementsByTagName(panel)[0].style.display = display;
-        this.active = r;
+      if(t) {
+        HTML.clickable(t); // TODO
+        t.onclick = () => { 
+          if(this.active) this.active.getElementsByTagName(panel)[0].style.display = "none"; 
+          r.getElementsByTagName(panel)[0].style.display = display;
+          this.active = r;
+        }
+        r.getElementsByTagName(panel)[0].style.display = (cnt == num ? display : "none");
       }
-      if(cnt == num) this.active = r; else r.getElementsByTagName(panel)[0].style.display = "none";
+      if(cnt == num) this.active = r;
       cnt++;
     }
   }
 }
+

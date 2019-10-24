@@ -1,3 +1,8 @@
+function setClick(elem, clb) {
+  elem.onclick = clb;
+  HTML.clickable(elem);
+}
+
 function getImage(r, s) {
   let img = document.createElement("IMG");
   img.src = "img/reg/" + r.commonName + ".png";
@@ -5,7 +10,7 @@ function getImage(r, s) {
   img.style = r.position.toString();
   img.onmouseout = () => { HTML.hidden(View.get("#new1 figure legend")); };
   img.onmouseover = () => { setTooltip(r); };
-  img.onclick = () => { if(r.align) setRegion(r, s); };
+  setClick(img, () => { if(r.align) setRegion(r, s); });  
   return img;
 }
 function setTooltip(r) {
@@ -23,7 +28,7 @@ function setTooltip(r) {
     setImage(i, EMPTY_IMG, NULL);
     setImage(View.get(p, 1), EMPTY_IMG, NULL);
   }
-  HTML.visible(t); // TODO
+  HTML.visible(t); 
 }
 function setImage(img, src, alt) {
   img.src = src;
@@ -37,20 +42,19 @@ function setRegion(r, s) {
   p = "#new2 figure legend";
   View.get(p, 0).innerHTML = r.getDescription();
   View.get(p, 1).innerHTML = HTML.p(r.align.getDescription());
-  let fs = View.get("#new2 ul > li > span", 0);
-  fs.innerHTML = "";
-  for(let f of r.families) {
-    let x = View.create("FIGURE");
-    x.innerHTML = HTML.img({src: "img/" + f.insigna, alt: f.name}) + HTML.elem("legend", f.name);
-    x.onclick = () => { setFamily(f, s); };
-    fs.appendChild(x);
+  if(r.owner) {
+    setImage(View.get(p, 2), r.owner.getInsigna(), r.owner.name);
+    View.get(p, 2).innerHTML = HTML.p(r.owner.getDescription());
   }  
+  let fs = View.get("#new2 div span", 0);
+  fs.innerHTML = "";
+  r.families.forEach((f) => { let a = showFamilyInsigna(f); fs.appendChild( a ); if(f != r.owner) setClick(a, () => { setFamily(f, s); }) });
   v.show("new2");
 }
 function setFamily(f, s) {
   s.setFamily(f); 
   s.build();
-  oldGameAllow("#oldGame ul li:nth-child(2)");
+  oldGameAllow("#oldGame ul li:nth-child(2) h3");
   let p = "#new3 figure legend";
   View.get(p, 0).innerHTML = f.getDescription();
   View.get(p, 1).innerHTML = s.player.getDescription();
@@ -59,10 +63,10 @@ function setFamily(f, s) {
   setImage(View.get(p, 0), f.insigna, f.name);
   setImage(View.get(p, 1), "img/face" + s.player.face + ".png", s.player.name);
   // TODO
-  training("#training span.subject", "#training img.subject", "#training .dice", "#training .chance", "#new3 .description", s.player.getSubjects());
+  training(s, "#training h5.subject", "#training img.subject", "#training .dice", "#training .chance", "#new3 .description", s.player.getSubjects());
   v.show("new3");
 }
-function training(subjects, images, dice, chances, description, values) {
+function training(session, subjects, images, dice, chances, description, values) {
   let cnt = 0;
   let s = View.get(description);
   let d = View.get(dice);
@@ -76,25 +80,30 @@ function training(subjects, images, dice, chances, description, values) {
   // initialize values for each subject
   for(let v in values) {
     let e = View.get(subjects, cnt);
-    let i = View.get(images, cnt);    
-    e.subject = values[v];
-    console.log("setting " + v + ": " + e.subject);        
-    e.eventListening = true;
-    showSubject(e, i);
-    // prepare each subject for clicking
-    e.onclick = () => { 
-      if(!e.eventListening) return;
-      d.style.visibility = "visible";
-      if(removeChance(d, chances) > 0) { // if there are chances remaining        
-        e.subject += rollDice(d);
-        showSubject(e, i);
-        console.log("changing " + v + ": " + e.subject);      
-      } else { // hide everything
-        d.style.visibility = "hidden";
-        s.style.visibility = "hidden";
-        e.eventListening = false;
-      }
-    };
+    if(e) {
+      let i = View.get(images, cnt);    
+      HTML.clickable(e);
+      e.subject = values[v];
+      console.log("setting " + v + ": " + e.subject);        
+      e.eventListening = true;
+      showSubject(e, i);
+      // prepare each subject for clicking
+      setClick(e, () => { 
+        if(!e.eventListening) return;
+        d.style.visibility = "visible";
+        if(removeChance(d, chances) > 0) { // if there are chances remaining        
+          e.subject += rollDice(d);
+          showSubject(e, i);
+          console.log("changing " + v + ": " + e.subject);      
+          //View.get("#new3 figure legend", 1).innerHTML = session.player.getDescription();
+        } else { // hide everything
+          d.style.visibility = "hidden";
+          s.style.visibility = "hidden";
+          // TODO update subject in player
+          e.eventListening = false;
+        }
+      });
+    }
     cnt++;
   }
 }
@@ -133,6 +142,7 @@ function showMain(s) {
   showPlayer(s.player);
   showFamily(s.family);
   showRegion(s.region);
+  showNation(s);
   showTurn(s);
 }
 function showPlayer(p) {
@@ -142,17 +152,44 @@ function showPlayer(p) {
   if(p.spouse) View.get("#player li legend", 3).textContent = p.spouse.name;  
   View.get("#player li legend", 2).textContent = Util.find(HEALTH, p.health);  
   View.get("#player li legend", 1).textContent = Util.find(AGES, p.age / 12);  
-  View.get("#player li p", 0).innerHTML = p.getDescription();
+  View.get("#player p", 0).innerHTML = p.getDescription();
 }
 function showFamily(f) {
+  View.get("#family figure legend", 0).textContent = f.name;
   setImage(View.get("#family img", 0), f.insigna, f.name);
   View.get("#family h3", 0).textContent = f.name;
   View.get("#family li p", 0).innerHTML = f.getDescription();
+  View.get("#family nav").style.visibility = (f != S.player.family ? "hidden" : "visible");
+  if(f.head != null) {
+    View.get("#family figure legend", 3).textContent = f.head.name;    
+    //View.get("#family li p", 1).textContent = f.head.getDescription();    // TODO
+  }
 }
 function showRegion(r) {
   View.get("#region h3", 0).textContent = r.name;
   setImage(View.get("#region img", 0), "img/reg/" + r.commonName + ".png", r.name);
   View.get("#region li p", 0).innerHTML = r.getDescription();
+  View.get("#region li p", 0).innerHTML = r.getDescription();
+  if(r.owner) {
+    setImage(View.get("#region img", 1), r.owner.getInsigna(), r.owner.name);
+    View.get("#region li p", 0).innerHTML = r.owner.getDescription();    
+  }  
+  let fs = View.get("#region span", 0);
+  fs.innerHTML = "";
+  r.families.forEach((f, i) => { let a = showFamilyInsigna(f); fs.appendChild( a ); setClick(a, () => { showFamily(f); v.show("family"); }); });
+}
+function showNation(s) {
+  View.get("#main li", 2).style.visibility = (s.player == s.player.family.head && s.region.owner == s.player.family ? "visible" : "hidden");
+}
+function showFamilyInsigna(f) {
+  let x = View.create("FIGURE");
+  x.innerHTML = HTML.img({src: "img/" + f.insigna, alt: f.name}) + HTML.elem("legend", f.name);
+  return x;
+}
+function showCanvas(id) {
+  let c = View.get("#" + id + " > canvas");
+  //c.style.width = (window.innerWidth  || document.documentElement.clientWidth  || Document.body.clientWidth) * .8;
+  //c.style.height = (window.innerHeight  || document.documentElement.clientHeight  || Document.body.clientHeight) * .8;
 }
 function showTurn(s) {
   View.get("#main header > h3").innerHTML = s.getTurn();
@@ -200,7 +237,7 @@ console.log("START " + REGIONS.length);
 let f = View.get("#new1 figure");
 let m = View.get("#new1 figure img:first-child");
 let x = View.get("#Fullscreen input");
-if(x.checked) x.requestFullscreen(); else document.exitFullscreen(); // TODO
+if(x.checked) x.requestFullscreen(); else document.exitFullscreen(); // TODO shows error
 console.log("SIZE " + m.style.width);
 let W = document.body.clientWidth;
 window.addEventListener("resize", resize(f, m), false); // TODO doesn't work
@@ -211,12 +248,10 @@ for(let r of REGIONS) {
 }
 console.log("END");
 
-
 View.files("#load ul", () => {}); // TODO if current session unsaved, ask confirm
 View.files("#save ul", () => {}); // TODO if selected slot occupied, ask confirm
 
-let bm = new Sound("snd/soundtrack.mp3");
-bm.value.loop = true;
+let bm = new Sound("snd/soundtrack.mp3", { loop: true });
 let v = new View("vendor");
 
 // TODO make waiting functioning
@@ -229,49 +264,56 @@ v.go("vendor", "title", () => { bm.play(); });
 v.go("title", "story");
 v.go("story", "menu");    
 v.go("#menu footer h5", null, () => { quit(); }); // quit
-v.go("#menu ul li:nth-child(1)", "new1", () => { resize(f, m); }); // TODO resize doesnt' work
-v.go("#menu ul li:nth-child(2)", "oldGame");
-v.go("#menu ul li:nth-child(3)", "settings");
-v.go("#menu ul li:nth-child(4)", "credits");
-v.go("#menu ul li:nth-child(5)", "story");
-v.go("#oldGame ul li:nth-child(1)", "load");
-//v.go("#oldGame ul li:nth-child(2)", "main");
+v.go("#menu li:nth-child(1) h2", "new1", () => { resize(f, m); }); // TODO resize doesnt' work
+v.go("#menu li:nth-child(2) h2", "oldGame");
+v.go("#menu li:nth-child(3) h2", "settings");
+v.go("#menu li:nth-child(4) h2", "credits");
+v.go("#menu li:nth-child(5) h2", "story");
+v.go("#oldGame li:nth-child(1) h3", "load");
 v.go("credits", "menu");      
 
 v.go("#oldGame footer h5", "menu");      
 v.go("#new1 footer h5", "menu");    
 v.go("#new2 footer h5", "new1");    
 v.go("#new3 footer h5", "new2");    
-v.go("#new3 > h3", "main", () => { showMain(S); View.get("#oldGame > ul > li", 1).disabled = false; }); // TODO disable doesn't work 
+v.go("#new3 > h3", "main", () => { showMain(S); }); 
 
-View.get("#main li figure", 0).onclick = () => { v.show("player");  };
-View.get("#main li figure", 1).onclick = () => { v.show("family");  };
-View.get("#main li figure", 2).onclick = () => { v.show("region");  };
+View.get("#main li figure", 0).onclick = () => { showPlayer(S.player); v.show("player");  };
+View.get("#main li figure", 1).onclick = () => { showFamily(S.player.family); v.show("family");  };
+View.get("#main li figure", 2).onclick = () => { showRegion(S.region); v.show("region");  };
 View.get("#main li figure", 3).onclick = () => { v.show("general"); };
 View.get("#main li figure", 4).onclick = () => { v.show("nation"); };
 
 v.go("#player footer h5", "main");    
 v.go("#region footer h5", "main");    
-v.go("#family footer h5", "main");    
+v.back("#family footer h5");
 v.go("#general footer h5", "main");    
 v.go("#nation footer h5", "main");    
 
-View.get("#general li h3", 0).onclick = () => { v.show("save");  };
-View.get("#general li h3", 1).onclick = () => { v.show("load");  };
-View.get("#general li h3", 2).onclick = () => { v.show("settings");  };
-View.get("#general li h3", 3).onclick = () => { oldGameDeny("#oldGame ul li:nth-child(2)"); v.show("menu") }; // TODO ask confirm if not saved
+View.click("#general li h3", 0, () => { v.show("save"); });
+View.click("#general li h3", 1, () => { v.show("load"); });
+View.click("#general li h3", 2, () => { v.show("settings"); });
+View.click("#general li h3", 3, () => { 
+  ask("WARNING!", "This will lose current game, are you sure?" ); // TODO ask doesn't show
+  oldGameDeny("#oldGame ul li:nth-child(2) h3"); 
+  v.show("menu") 
+}); 
 
-View.get("#player nav .bow").onclick = () => { v.show("bow"); };   
+View.click("#player .bow", 0, () => { showCanvas("bow"); v.show("bow"); });   
 v.go("#bow footer h5", "player");    
 
-View.get("#settings h6", 0).onclick = () => { 
+View.click("#settings h6", 0, () => { 
   console.log("saving settings");
+  let r = "CONQUEROR";
+  let p = "#settings p";
   // TODO
-};
-View.get("#settings h6", 1).onclick = () => { 
+});
+View.click("#settings h6", 1, () => { 
   console.log("loading settings");
+  let r = "CONQUEROR";
+  let p = "#settings p";
   // TODO
-}; 
+}); 
 View.get("#Fullscreen input").onchange = () => { 
   let x = View.get("#Fullscreen input");
   if(x.checked) x.requestFullscreen(); else document.exitFullscreen();
@@ -287,5 +329,7 @@ v.back("#save footer h5");
 
 setAudio("BackgroundMusic", bm);
 setAudio("SoundEffects");
-let a1 = new Accordion("settings", "div", "h3", "ul", 0);
-let a2 = new Accordion("player", "div", "h4", "ul", 0, "table-cell");
+let a1 = new Accordion("#settings div", "h3", "ul", 0);
+let a2 = new Accordion("#player div", "h4", "ul", 0, "table-cell");
+let a3 = new Accordion("#region nav", "h4", "ul", 0);
+let a4 = new Accordion("#family nav", "h4", "ul", 0);

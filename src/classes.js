@@ -75,9 +75,9 @@ class Skills {
 // normans:	s++,  c- , a- , k+
 // celts:		s+ ,  c- , a+ , k-	
 // saxons:	s--,  c+ , a- , k+	
-class Alignment {
+class Alignment extends Parsable {
 	constructor(name, familySeed, skills) {
-		this.name = name;
+		super(name);
 		this.familySeed = familySeed;
 		this.skills = skills;
 		this.femaleNames = [];
@@ -113,9 +113,9 @@ class Insigna {
   }
 }
 
-class Family {
+class Family extends Parsable {
 	constructor(name, title, align) {
-		this.name = name;
+    super(name);
 		this.title = title;
 		this.align = align;
 		this.head  = null;
@@ -190,18 +190,21 @@ class Family {
   getPower() {
     return 0; // TODO
   }
+  getInsigna() {
+    return null;  // TODO
+  }
 }
 
-class Title {
+class Title extends Parsable {
 	constructor(name, rank) {
-		this.name = name;
+    super(name);
     this.rank = rank;
 	}
 }
 
-class Level {
+class Level extends Parsable {
 	constructor(name) {
-		this.name = name;
+		super(name);
     this.scale = 0;
 	}
 	static get(region) {
@@ -267,12 +270,12 @@ class Position {
 // if there's no food for soldiers, they may rebel
 // land and sea determine how much food and wealth is produced
 // 
-class Region {
+class Region extends Parsable {
 	static as(name, align, position, selectable) {
 		return new Region(name, align, null, 1000, 1, 1, 0, 0, 0, 0, 0, position, selectable);
 	}
 	constructor(name, align, owner, population, surface, land, sea, wealth, food, taxes, morale, position, selectable) {
-		this.name = name;
+    super(name);
 		this.selectable = selectable;
 		this.align = align;
 		this.owner = owner;						
@@ -333,9 +336,9 @@ class Region {
   }
 }
 
-class UnitType {
+class UnitType extends Parsable {
 	constructor(name, range, strength, movement) {
-		this.name = name;
+		super(name);
 		this.strength = strength;
 		this.movement = movement;
 		this.range = range;
@@ -361,9 +364,9 @@ class Unit {
 	}
 }
 
-class Person {
+class Person extends Parsable {
 	constructor(name, gender, father, mother, family) {
-		this.name = name;
+    super(name);
 		this.gender = gender;
 		this.father = father;
 		this.mother = mother;
