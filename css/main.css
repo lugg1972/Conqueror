@@ -88,12 +88,6 @@ a:hover {
 audio {
   display:            none;
 }
-footer h5:hover {
-  color:              blue;
-}
-footer h5:active {
-  color:              gold;
-}
 p {
   text-align:         justify;
   text-justify:       inter-word;
@@ -135,6 +129,9 @@ p {
 .clickable:hover {
   color:              blue;
 }  
+.clickable:hover:first-letter {
+  color:              blue;
+}  
 .clickable:active {
   color:              gold;
 }    
@@ -154,24 +151,12 @@ p {
 #vendor img {
   animation: 		      spin 4s infinite linear;
 }  
-#vendor footer h5:hover {
-  color:              black;
-}
-#vendor footer h5:active {
-  color:              black;
-}
 /*------------------------------------------------------------------------------------------------*/
 #title img {
   height:             65%;
   overflow:           hidden;
   animation: 		      zoomout 10s forwards;
 }  
-#title footer h5:hover {
-  color:              black;
-}
-#title footer h5:active {
-  color:              black;
-}
 /*------------------------------------------------------------------------------------------------*/
 #story {
   width:              80%;
@@ -197,12 +182,6 @@ p {
   font-weight:        bold;
   color:              blue;
 }  
-#story footer h5:hover {
-  color:              black;
-}
-#story footer h5:active {
-  color:              black;
-}
 /*------------------------------------------------------------------------------------------------*/
 #credits > ul {
   display:            table;
@@ -248,12 +227,6 @@ p {
   border:             1px solid gold;
   border-radius:      3px;
 }  
-#credits footer h5:hover {
-  color:              black;
-}
-#credits footer h5:active {
-  color:              black;
-}
 /*------------------------------------------------------------------------------------------------*/
 #menu ul {
   margin-top:         3%;
@@ -264,35 +237,13 @@ p {
 #menu ul li {
   margin-top:         3%;
   margin-bottom:      3%;
-}
-#menu h2 {
   text-align:         left;
   white-space: 		    nowrap;        
 }
-#menu h2:hover {
-  color:              blue;
-}
-#menu h2:active {
-  color:              gold;
-}
-#menu h2:active:first-letter {
-  color:              gold;
-}
 /*------------------------------------------------------------------------------------------------*/
-#oldGame {
-}
 #oldGame ul {
   margin-top:         5%;
   margin-bottom:      5%;
-}
-#oldGame h3:hover {
-  color:              blue;
-}
-#oldGame h3:active {
-  color:              gold;
-}
-#oldGame h3:active:first-letter {
-  color:              gold;
 }
 /*------------------------------------------------------------------------------------------------*/
 #settings ul {
@@ -315,21 +266,6 @@ p {
 #settings h6 {
   font-size:          120%;
 }
-#settings h3:hover {
-  color:              blue;
-}
-#settings h3:active {
-  color:              gold;
-}
-#settings h3:active:first-letter {
-  color:              gold;
-}
-#settings h6:hover {
-  color:              blue;
-} 
-#settings h6:active {
-  color:              gold;
-} 
 /*------------------------------------------------------------------------------------------------*/
 #new1 figure {
   display:            block;
@@ -374,16 +310,17 @@ p {
   max-width:          3vw;
   max-height:         3vh;
   vertical-align:     baseline;
+  padding-top:        .5vh;
 }
 #new1 figure legend img:nth-child(1) {
   float:              left;       
   clear:              left;  
-  padding-left:       .5vw; 
+  padding-left:       1vw;
 }
 #new1 figure legend img:nth-child(2) {
   float:              right;       
   clear:              right;  
-  padding-right:      .5vw;
+  padding-right:      2vw;
 }
 
 @media (orientation: landscape) {
@@ -413,15 +350,18 @@ p {
   margin-top:         12vh;
 } }
 /*------------------------------------------------------------------------------------------------*/
-#new2 ul {
+#new2 div {
+  display:            table;
+}  
+#new2 div ul {
   margin-left:        6vw;
   margin-right:       6vw;
   display:            table;
 }
-#new2 li {
+#new2 div li {
   display:            table-row;
 }
-#new2 li > figure img {
+#new2 div li > figure img {
   background-image:   url(../img/quatrefoil3.png);
   background-size:    100% 100%;
   padding:            3vw;
@@ -430,13 +370,13 @@ p {
   width:              8vw;
   height:             8vw;
 }
-#new2 li span {
-  display:            table-row;  
-  width:              80%;
+#new2 div span {
+  display:            block;  
+  overflow:           hidden;
   overflow-x:         auto;
 }
-#new2 li span > figure {
-  display:            table-cell;       
+#new2 div span > figure {
+  display:            inline-block;       
   padding-left:       1vw;
   padding-right:      1vw;
   border:             1px solid gold;
@@ -444,21 +384,21 @@ p {
   opacity:            .7;
   filter:             grayscale(100%);
 }
-#new2 li span > figure legend {
+#new2 div span > figure legend {
   text-align:         center;  
 }
-#new2 li span > figure img {
+#new2 div span > figure img {
   display:            inline-block;
   width:              10vw;
   height:             10vw;
 }
-#new2 li span > figure:hover {
+#new2 div span > figure:hover {
   opacity:            1;
   filter:             none;
   color:              blue;
   background-color:   lightGray;
 }
-#new2 li span > figure:active {
+#new2 div span > figure:active {
   color:              gold;
 }
 /*------------------------------------------------------------------------------------------------*/
@@ -486,15 +426,6 @@ p {
   width:              9vw;
   height:             9vw;
 }     
-#new3 h3:hover {
-  color:              blue;
-}
-#new3 h3:active {
-  color:              gold;
-}
-#new3 h3:active:first-letter {
-  color:              gold;
-}
 /*------------------------------------------------------------------------------------------------*/
 #training {
   display:            table;
@@ -511,22 +442,14 @@ p {
 #training span {
   display:            table-cell;
 }
-#training span.subject {
-  color:              red;
-  width:              20%;
-  font-size:          120%;
+#training h5 {
+  font-size:          100%;
   text-align:         right;
 }
-#training  img.subject {
+#training img.subject {
   height:             2vh;
   width:              auto;
   overflow:           hidden;
-}
-#training .subject:hover {
-  color:              blue;
-}
-#training .subject:active {
-  color:              gold;
 }
 #training .dice {
   position:           absolute;
@@ -590,38 +513,29 @@ p {
 #general ul {
   margin-top:         5%;
   margin-bottom:      5%;
+  width:              30%;
+  margin-left:        35%;
+  text-align:         left;
 }
-#general h3:hover {
-  color:              blue;
-}
-#general h3:active {
-  color:              gold;
-}
-#general h3:active:first-letter {
-  color:              gold;
+#general h3 {
+  white-space: 		    nowrap;
+  margin-bottom:      2%;
 }
 /*------------------------------------------------------------------------------------------------*/
-#player ul {
+#player {
+  overflow: auto; overflow-x: hidden;
+}
+#player ul.player {
   display:            table;  
   margin-left:        10%;
   width:              80%;
 }
-#player li {
+#player ul.player li {
   display:            table-row;  
   border: 1px solid red;
 }
-#player li figure {
+#player ul.player li figure {
   display:            table-cell;
-  border: 1px solid blue;
-}
-#player li p {
-  display:            table-cell;
-  border: 1px solid green;
-}  
-#player li p > p {
-  display:            block;
-  text-align:         justify;
-  text-justify:       inter-word;
 }
 #player ul.player li img {
   width:              10vw;
@@ -631,9 +545,34 @@ p {
   padding:            2vw;
   overflow:           hidden;    
 }
+#player p {
+  display:            block;
+  text-align:         justify;
+  text-justify:       inter-word;
+  margin-left:        10%;
+  width:              80%;
+}
 #player ul.children {
   overflow:           auto; 
-  max-width:          80%;
+  overflow-y:         hidden;
+  width:              60%;
+}
+#player ul.children li {
+  display:            inline;
+}
+#player ul.children li figure {
+  opacity:            .7;
+  filter:             grayscale(100%);
+}
+#player ul.children li figure:hover {
+  opacity:            1;
+  filter:             none;
+}
+#player ul.children li figure legend:hover {
+  color:              blue;
+}
+#player ul.children li figure legend:active {
+  color:              gold;
 }
 #player ul.children li img {
   width:              8vw;
@@ -643,20 +582,17 @@ p {
   padding:            1.5vw;
   overflow:           hidden;    
 }
-#player nav ul li {
-  border: 1px solid red;
+#player nav {
+  width:              50%;
+  margin-left:        25%;
+  text-align:         center;  
+  display:            block;
 }
-#player h4:hover {
-  color:              blue;
+#player nav ul {
+  display:            inline-block;
 }
-#player h4:active {
-  color:              gold;
-}
-#player nav ul li:hover {
-  color:              blue;
-}
-#player nav ul li:active {
-  color:              gold;
+#player nav li {
+  text-align:         center;  
 }
 /*------------------------------------------------------------------------------------------------*/
 #family > ul {
@@ -678,42 +614,37 @@ p {
 }
 #family li p {
   display:            table-cell;
-  border: 1px solid blue;
 }
 #family li p > p {
   display:            block;
   text-align:         justify;
   text-justify:       inter-word;
 }
-#family h4:hover {
-  color:              blue;
-}
-#family h4:active {
-  color:              gold;
-}
 /*------------------------------------------------------------------------------------------------*/
-#region > ul {
+#region div {
   display:            table;  
   margin-left:        10%;
   width:              80%;
 }
-#region li {
+#region ul {
+  display:            table;  
+}
+#region div li {
   display:            table-row;  
 }
-#region li figure {
+#region div li figure {
   display:            table-cell;
-  border: 1px solid blue;
 }
-#region li p {
+#region div li p {
   display:            table-cell;
-  border: 1px solid blue;
+  vertical-align: top;
 }
-#region li p > p {
+#region div li p > p {
   display:            block;
   text-align:         justify;
   text-justify:       inter-word;
 }
-#region li img {
+#region div li img {
   width:              10vw;
   height:             10vw;
   background-image:   url(../img/quatrefoil3.png);
@@ -722,10 +653,35 @@ p {
   overflow:           hidden;    
   display:            table-cell;
 }
-#region h4:hover {
-  color:              blue;
+#region div span {
+  display:            block;
+  overflow:           hidden;
+  overflow-x:         auto;
 }
-#region h4:active {
+#region div span figure {
+  display:            inline-block;
+  padding-left:       1vw;
+  padding-right:      1vw;
+  border:             1px solid gold;
+  border-radius:      1vw;
+  opacity:            .7;
+  filter:             grayscale(100%);
+}
+#region div span figure legend {
+  text-align:         center;  
+}
+#region div span figure img {
+  display:            inline-block;
+  width:              10vw;
+  height:             10vw;
+}
+#region div span figure:hover {
+  opacity:            1;
+  filter:             none;
+  color:              blue;
+  background-color:   lightGray;
+}
+#region div span figure:active {
   color:              gold;
 }
 /*------------------------------------------------------------------------------------------------*/
@@ -739,11 +695,11 @@ p {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 10%; /* Location of the box */
+  margin-top: 20%; /* Location of the box */
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
+  width: 40%; /* Full width */
+  height: 40%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
